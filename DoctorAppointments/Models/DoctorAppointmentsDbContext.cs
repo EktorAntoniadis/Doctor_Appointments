@@ -8,7 +8,9 @@ namespace DoctorAppointments.Models
         {
         }
 
-        DbSet<Patient> Patients { get; set; }
-        DbSet<Appointment> Appointments { get; set; }
+        public DbSet<Patient> Patients { get; set; }
+        public DbSet<Appointment> Appointments { get; set; }
+        public DbSet<Timeslot> Timeslots { get; set; }
+        public DbSet<User> Users { get; set; }
     }
 }

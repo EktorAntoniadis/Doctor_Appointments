@@ -8,14 +8,15 @@ namespace DoctorAppointments.Models
         [Key]
         public int AppointmentId { get; set; }
 
-        [Required]
-        public DateOnly AppointmentDate { get; set; }
+        [ForeignKey("Timeslot")]
+        public int TimeslotId { get; set; }
 
-        [Required]
-        public TimeOnly AppointmentTime { get; set; }
+        public virtual Timeslot Timeslot { get; set; }
 
         [ForeignKey("Patient")]
         public int PatientId { get; set; }
         public virtual Patient Patient { get; set; }
+
+        public string Description { get; set; }
     }
 }
