@@ -17,21 +17,39 @@ namespace DoctorAppointments.Repository
 
         public void Delete(int id)
         {
-            var appointment = GetById(id);
+            var appointment = GetAppointmentById(id);
             _context.Appointments.Remove(appointment);
             _context.SaveChanges();
         }
 
-        public IEnumerable<Appointment> GetAll()
+        public IEnumerable<Appointment> GetAllAppointments()
         {
             var appointment = _context.Appointments.ToList();
             return appointment;
         }
 
-        public Appointment GetById(int id)
+        public Appointment GetAppointmentById(int id)
         {
             var appointment = _context.Appointments.Find(id);
             return appointment;
+        }
+
+        public IEnumerable<Appointment> GetAppointmentsByDay(DateOnly day)
+        {
+            var appointments = _context.Appointments.Where(x=>x.Timeslot.Date == day).ToList();
+            return appointments;
+        }
+
+        public IEnumerable<Appointment> GetAppointmentsByMonth(int month)
+        {
+            var appointments = _context.Appointments.Where(x => x.Timeslot.Date.Month == month).ToList();
+            return appointments;
+        }
+
+        public IEnumerable<Appointment> GetAppointmentsByPatient(int patientId)
+        {
+            var appointments = _context.Appointments.Where(x=>x.PatientId == patientId).ToList();
+            return appointments;
         }
 
         public void Update(Appointment appointment)

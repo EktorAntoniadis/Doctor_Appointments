@@ -35,6 +35,15 @@ namespace DoctorAppointments
 
             app.MapRazorPages();
 
+            using (var scope = app.Services.CreateScope())
+            {
+                var services = scope.ServiceProvider;
+                var context = services.GetRequiredService<DoctorAppointmentsDbContext>();
+
+                var seeder = new DatabaseSeed(context); 
+                seeder.Seed();
+            }
+
             app.Run();
         }
     }
