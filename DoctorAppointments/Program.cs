@@ -1,4 +1,5 @@
 using DoctorAppointments.Models;
+using DoctorAppointments.Repository;
 using Microsoft.EntityFrameworkCore;
 
 namespace DoctorAppointments
@@ -15,6 +16,9 @@ namespace DoctorAppointments
             builder.Services.AddDbContext<DoctorAppointmentsDbContext>(options =>
             options.UseMySql("server=127.0.0.1;uid=root;database=doctorappointmentsdb",
             ServerVersion.AutoDetect("server=127.0.0.1;uid=root;database=doctorappointmentsdb")));
+
+            builder.Services.AddScoped<IAppointmentRepository, AppointmentRepository>();
+
 
             var app = builder.Build();
 

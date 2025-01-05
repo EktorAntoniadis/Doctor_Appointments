@@ -19,9 +19,14 @@ namespace DoctorAppointments.Models
         [Required]
         public string PhoneNumber { get; set; }
 
+        [Required]
+        public string AMKA { get; set; }
+
         public string Address { get; set; }
 
         public string Email { get; set; }
+
+        public string Notes { get; set; }
 
         public virtual ICollection<Appointment> Appointments { get; set; } = new List<Appointment>();
     }

@@ -1,0 +1,54 @@
+﻿@page
+@model AppointmentsModel
+@{
+    ViewData["Appointments"] = "Appointments";
+}
+
+<h1>@ViewData["Appointments"]</h1>
+
+<p>Welcome to the Appointments page!</p>
+
+<form method="post">
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <label for="AppointmentDate" class="form-label">Appointment Date:</label>
+            <input id="AppointmentDate" asp-for=AppointmentDate name="AppointmentDate" type="date" class="form-control" required />
+            <div class="invalid-feedback">
+                Please select a valid date.
+            </div>
+        </div>
+    </div>
+    <button class="btn btn-primary" type="submit">View Appointments</button>
+</form>
+
+@if(Model.DailyAppointments != null && Model.DailyAppointments.Any())
+{
+    <table>
+        <thead>
+            <tr>
+                <th>AMKA</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Date</th>
+                <th>Start Time</th>
+                <th>End Time</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var appointment in Model.DailyAppointments){
+                <tr>
+                    <td>@appointment.Patient.AMKA</td>
+                    <td>@appointment.Patient.FirstName</td>
+                    <td>@appointment.Patient.LastName</td>
+                    <td>@appointment.Timeslot.Date</td>
+                    <td>@appointment.Timeslot.StartTime</td>
+                    <td>@appointment.Timeslot.EndTime</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No appointments for this date</p>
+}
