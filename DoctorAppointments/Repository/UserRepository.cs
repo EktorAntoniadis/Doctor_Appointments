@@ -35,6 +35,12 @@ namespace DoctorAppointments.Repository
             return user;
         }
 
+        public User? GetByUserName(string userName)
+        {
+           var user =_context.Users.Where(x=>x.Username == userName).FirstOrDefault();
+            return user;
+        }
+
         public void Update(User user)
         {
             _context.Users.Update(user);
