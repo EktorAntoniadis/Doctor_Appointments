@@ -12,3 +12,4 @@ namespace DoctorAppointments.Repository
         void Delete(int id);
     }    
 }
+ 
