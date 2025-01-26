@@ -8,6 +8,10 @@
 
 <p>Welcome to the Appointments page!</p>
 
+<div class="mt-4">
+    <a href="/CreateAppointment" class="btn btn-info">Create New appointment</a>
+</div>
+
 <form method="post">
     <div class="row mb-3">
         <div class="col-md-6">
@@ -21,30 +25,12 @@
     <button class="btn btn-primary" type="submit">View Appointments</button>
 </form>
 
-@* <h2>Add New Appointment</h2>
-<form method="post" asp-page-handler="Add">
-    <div class="mb-3">
-        <label for="Description" class="form-label">Description</label>
-        <input id="Description" asp-for="NewAppointment.Description" class="form-control" required />
-    </div>
-
-    <div class="mb-3">
-        <label for="TimeslotId" class="form-label">Timeslot ID</label>
-        <input id="TimeslotId" asp-for="NewAppointment.TimeslotId" class="form-control" required />
-    </div>
-
-    <div class="mb-3">
-        <label for="PatientId" class="form-label">Patient ID</label>
-        <input id="PatientId" asp-for="NewAppointment.PatientId" class="form-control" required />
-    </div>
-
-    <button type="submit" class="btn btn-success">Add Appointment</button>
-</form> *@
 
 @if (Model.DailyAppointments != null && Model.DailyAppointments.Records.Any())
 {
     <h2>Appointments for @Model.AppointmentDate</h2>
-    <table>
+
+    <table class="table table-light table-responsive">
         <thead>
             <tr>
                 <th>AMKA</th>

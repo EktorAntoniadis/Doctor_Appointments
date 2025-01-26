@@ -1,0 +1,51 @@
+﻿@page
+@model DoctorAppointments.Pages.CreateAppointmentModel
+@{
+    ViewData["Appointments"] = "Create New Appointment";
+}
+
+<h1>Create new appointment</h1>
+
+<form method="post" asp-page-handler="AddAppointment">
+    <div class="mb-3">
+        <label for="Description" class="form-label">Description</label>
+        <input id="Description" asp-for="NewAppointment.Description" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label for="TimeslotDate" class="form-label">Timeslot Date</label>
+        <input id="TimeslotDate" type="date" asp-for="NewAppointment.Timeslot.Date" class="form-control" required />
+    </div>
+
+    <div class="mb-3">
+        <label for="TimeslotStartTime" class="form-label">Timeslot Start Time</label>
+        <input step="1800" min="9:00" max="17:00" id="TimeslotStartTime" type="time" asp-for="NewAppointment.Timeslot.StartTime" class="form-control" required />
+    </div>
+
+    <div class="mb-3">
+        <label for="TimeslotEndTime" class="form-label">Timeslot End Time</label>
+        <input type="time" step="1800" min="9:00" max="17:00" id="TimeslotEndTime" asp-for="NewAppointment.Timeslot.EndTime" class="form-control" required />
+    </div>
+
+    <div class="mb-3">
+        <label for="PatientFirstName" class="form-label">Patient First Name</label>
+        <input id="PatientFirstName" asp-for="NewAppointment.Patient.FirstName" class="form-control" required />
+    </div>
+
+    <div class="mb-3">
+        <label for="PatientLastName" class="form-label">Patient Last Name</label>
+        <input id="PatientLastName" asp-for="NewAppointment.Patient.LastName" class="form-control" required />
+    </div>
+
+    <div class="mb-3">
+        <label for="PatientAMKA" class="form-label">Patient AMKA</label>
+        <input id="PatientAMKA" asp-for="NewAppointment.Patient.AMKA" class="form-control" required />
+    </div>
+
+    <button type="submit" class="btn btn-success">Add Appointment</button>
+
+    @if(!string.IsNullOrEmpty(Model.ErrorMessage))
+    {
+        <p class="text-danger">@Model.ErrorMessage</p>
+    }
+</form>
