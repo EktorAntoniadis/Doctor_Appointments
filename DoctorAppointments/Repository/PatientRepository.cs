@@ -29,6 +29,12 @@ namespace DoctorAppointments.Repository
             return patients;
         }
 
+        public Patient? GetByAMKA(string amka)
+        {
+            var patient = _context.Patients.FirstOrDefault(x => x.AMKA == amka);
+            return patient;
+        }
+
         public Patient? GetById(int id)
         {
             var patient = _context.Patients.Find(id);

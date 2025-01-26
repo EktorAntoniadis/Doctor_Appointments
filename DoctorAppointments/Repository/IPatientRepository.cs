@@ -6,7 +6,7 @@ namespace DoctorAppointments.Repository
     {
         IEnumerable<Patient> GetAll();
         Patient? GetById(int id);
-        
+        Patient? GetByAMKA(string amka);        
         void Add(Patient patient);
         void Update(Patient patient);
         void Delete(int id);

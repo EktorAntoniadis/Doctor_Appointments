@@ -18,6 +18,9 @@ namespace DoctorAppointments.Repository
             int pageSize,
             string sortColumn,
             string sortDirection);
+
+        bool IsExistingAppointment(DateOnly day, TimeOnly startTime);
+
         IEnumerable<Appointment> GetAppointmentsByMonth(int year, int month);
         IEnumerable<Appointment> GetAppointmentsByMonth(int month);
     }

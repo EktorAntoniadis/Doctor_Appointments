@@ -1,5 +1,6 @@
 ﻿using DoctorAppointments.Common;
 using DoctorAppointments.Models;
+using Microsoft.EntityFrameworkCore;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace DoctorAppointments.Repository
@@ -63,6 +64,18 @@ namespace DoctorAppointments.Repository
             return appointments;
         }
 
+        public bool IsExistingAppointment(DateOnly day, TimeOnly startTime)
+        {
+            var appointment = _context.Appointments.Where(x => x.Timeslot.Date == day && x.Timeslot.StartTime == startTime).FirstOrDefault();
+
+            if (appointment == null)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
         public void Update(Appointment appointment)
         {
             _context.Appointments.Update(appointment);
@@ -76,7 +89,11 @@ namespace DoctorAppointments.Repository
             string sortColumn, 
             string sortDirection)
         {
-            var query = _context.Appointments.Where(x => x.Timeslot.Date == day).AsQueryable();
+            var query = _context.Appointments
+                .Include(x=>x.Timeslot)
+                .Include(x=>x.Patient)
+                .Where(x => x.Timeslot.Date == day)
+                .AsQueryable();
 
             switch (sortColumn)
             {
