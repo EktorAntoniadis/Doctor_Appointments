@@ -18,6 +18,8 @@ namespace DoctorAppointments
             ServerVersion.AutoDetect("server=127.0.0.1;uid=root;database=doctorappointmentsdb")));
 
             builder.Services.AddScoped<IAppointmentRepository, AppointmentRepository>();
+            builder.Services.AddScoped<IUserRepository, UserRepository>();
+            builder.Services.AddScoped<IPatientRepository, PatientRepository>();
 
 
             var app = builder.Build();

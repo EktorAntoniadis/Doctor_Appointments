@@ -12,7 +12,7 @@
     <div class="row mb-3">
         <div class="col-md-6">
             <label for="AppointmentDate" class="form-label">Appointment Date:</label>
-            <input id="AppointmentDate" asp-for=AppointmentDate name="AppointmentDate" type="date" class="form-control" required />
+            <input id="AppointmentDate" asp-for="AppointmentDate" name="AppointmentDate" type="date" class="form-control" required />
             <div class="invalid-feedback">
                 Please select a valid date.
             </div>
@@ -21,21 +21,55 @@
     <button class="btn btn-primary" type="submit">View Appointments</button>
 </form>
 
-@if(Model.DailyAppointments != null && Model.DailyAppointments.Any())
+@* <h2>Add New Appointment</h2>
+<form method="post" asp-page-handler="Add">
+    <div class="mb-3">
+        <label for="Description" class="form-label">Description</label>
+        <input id="Description" asp-for="NewAppointment.Description" class="form-control" required />
+    </div>
+
+    <div class="mb-3">
+        <label for="TimeslotId" class="form-label">Timeslot ID</label>
+        <input id="TimeslotId" asp-for="NewAppointment.TimeslotId" class="form-control" required />
+    </div>
+
+    <div class="mb-3">
+        <label for="PatientId" class="form-label">Patient ID</label>
+        <input id="PatientId" asp-for="NewAppointment.PatientId" class="form-control" required />
+    </div>
+
+    <button type="submit" class="btn btn-success">Add Appointment</button>
+</form> *@
+
+@if (Model.DailyAppointments != null && Model.DailyAppointments.Records.Any())
 {
+    <h2>Appointments for @Model.AppointmentDate</h2>
     <table>
         <thead>
             <tr>
                 <th>AMKA</th>
-                <th>First Name</th>
-                <th>Last Name</th>
+                <th>
+                    <a asp-page="/Appointments" asp-route-SortColumn="FirstName" asp-route-SortDirection="@(Model.SortColumn == "FirstName" && Model.SortDirection == "ASC" ? "DESC" : "ASC")">
+                        First Name
+                    </a>
+                </th>
+                <th>
+                    <a asp-page="/Appointments" asp-route-SortColumn="LastName" asp-route-SortDirection="@(Model.SortColumn == "FirstName" && Model.SortDirection == "ASC" ? "DESC" : "ASC")">
+                        Last Name
+                    </a>
+                </th>
                 <th>Date</th>
-                <th>Start Time</th>
+                <th>
+                    <a asp-page="/Appointments" asp-route-SortColumn="StartTime" asp-route-SortDirection="@(Model.SortColumn == "PublicationDate" && Model.SortDirection == "ASC" ? "DESC" : "ASC")">
+                        Publication Date
+                    </a>
+                </th>
                 <th>End Time</th>
             </tr>
         </thead>
         <tbody>
-            @foreach(var appointment in Model.DailyAppointments){
+            @foreach (var appointment in Model.DailyAppointments.Records)
+            {
                 <tr>
                     <td>@appointment.Patient.AMKA</td>
                     <td>@appointment.Patient.FirstName</td>
@@ -47,6 +81,17 @@
             }
         </tbody>
     </table>
+
+    <div class="pagination">
+        @if (Model.DailyAppointments.HasPreviousPage)
+        {
+            <a asp-page="/Appointments" asp-route-PageIndex="@(Model.DailyAppointments.PageIndex - 1)" class="btn btn-secondary">Previous</a>
+        }
+        @if (Model.DailyAppointments.HasNextPage)
+        {
+            <a asp-page="/Appointments" asp-route-PageIndex="@(Model.DailyAppointments.PageIndex + 1)" class="btn btn-secondary">Next</a>
+        }
+    </div>
 }
 else
 {

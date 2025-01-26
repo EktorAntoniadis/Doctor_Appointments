@@ -1,0 +1,36 @@
+﻿@page
+@model PatientsModel
+@{
+    ViewData["Patients"] = "Patient List";
+}
+
+<h1>Patient List</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Phone Number</th>
+            <th>AMKA</th>
+            <th>Address</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var patient in Model.Patients)
+        {
+            <tr>
+                <td>@patient.FirstName</td>
+                <td>@patient.LastName</td>
+                <td>@patient.PhoneNumber</td>
+                <td>@patient.AMKA</td>
+                <td>@patient.Address</td>
+                <td>
+                    <a asp-action="EditPatient" asp-route-id="@patient.PatientId">Edit</a> |
+                    <a asp-action="DeletePatient" asp-route-id="@patient.PatientId">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
