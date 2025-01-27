@@ -46,7 +46,9 @@ namespace DoctorAppointments.Pages
             }
 
             if (!_appointmentsRepository.IsExistingAppointment(
-                NewAppointment.Timeslot.Date, NewAppointment.Timeslot.StartTime))
+                NewAppointment.Timeslot.Date, 
+                NewAppointment.Timeslot.StartTime,
+                NewAppointment.Timeslot.EndTime))
             {
                 _appointmentsRepository.Add(NewAppointment);
                 return RedirectToPage("/Appointments");

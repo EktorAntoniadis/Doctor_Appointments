@@ -33,7 +33,10 @@ namespace DoctorAppointments.Repository
 
         public Appointment GetAppointmentById(int id)
         {
-            var appointment = _context.Appointments.Find(id);
+            var appointment = _context.Appointments
+                .Include(x=>x.Patient)
+                .Include(x=>x.Timeslot)
+                .FirstOrDefault(x=>x.AppointmentId == id);
             return appointment;
         }
 
@@ -64,9 +67,11 @@ namespace DoctorAppointments.Repository
             return appointments;
         }
 
-        public bool IsExistingAppointment(DateOnly day, TimeOnly startTime)
+        public bool IsExistingAppointment(DateOnly day, TimeOnly startTime, TimeOnly endTime)
         {
-            var appointment = _context.Appointments.Where(x => x.Timeslot.Date == day && x.Timeslot.StartTime == startTime).FirstOrDefault();
+            var appointment = _context.Appointments
+                .Where(x => x.Timeslot.Date == day &&  
+                (x.Timeslot.StartTime == startTime && x.Timeslot.EndTime == endTime)).FirstOrDefault();
 
             if (appointment == null)
             {
