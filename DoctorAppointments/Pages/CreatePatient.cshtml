@@ -1,0 +1,46 @@
+﻿@page
+@model DoctorAppointments.Pages.CreatePatientModel
+@{
+    ViewData["Patients"] = "Create New Patient";
+}
+
+<h1>Create new patient</h1>
+
+<form method="post" asp-page-handler="AddPatient">
+    <div class="mb-3">
+        <label asp-for="NewPatient.FirstName" class="form-label">First Name</label>
+        <input id="FirstName" asp-for="NewPatient.FirstName" class="form-control" required />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="NewPatient.LastName" class="form-label">Last Name</label>
+        <input id="LastName" asp-for="NewPatient.LastName" class="form-control" required />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="NewPatient.AMKA" class="form-label">AMKA</label>
+        <input id="AMKA" asp-for="NewPatient.AMKA" class="form-control" required />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="NewPatient.Email" class="form-label">Email</label>
+        <input id="Email" asp-for="NewPatient.Email" type="email" class="form-control" required />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="NewPatient.PhoneNumber" class="form-label">Phone Number</label>
+        <input id="PhoneNumber" asp-for="NewPatient.PhoneNumber" class="form-control" required />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="NewPatient.Notes" class="form-label">Notes</label>
+        <textarea asp-for="NewPatient.Notes" id="Notes" class="form-control" ></textarea>
+    </div>
+
+    <button type="submit" class="btn btn-success">Add Patient</button>
+
+    @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+    {
+        <p class="text-danger">@Model.ErrorMessage</p>
+    }
+</form>
