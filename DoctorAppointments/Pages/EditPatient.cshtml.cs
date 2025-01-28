@@ -5,34 +5,35 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace DoctorAppointments.Pages
 {
-    public class CreatePatientModel : PageModel
+    public class EditPatientModel : PageModel
     {
         private readonly IPatientRepository _patientRepository;
 
-        public CreatePatientModel(IPatientRepository patientRepository)
+        public EditPatientModel(IPatientRepository patientRepository)
         {
             _patientRepository = patientRepository ?? throw new ArgumentNullException(nameof(patientRepository));
         }
 
         [BindProperty]
-        public Patient NewPatient { get; set; }
+        public Patient EditPatient { get; set; }
 
         public string ErrorMessage { get; set; }
 
-        public void OnGet()
+        public IActionResult OnGet(int id)
         {
-        }
+            EditPatient = _patientRepository.GetById(id);
 
-        public IActionResult OnPostAddPatient()
-        {
-            if (_patientRepository.GetByAMKA(NewPatient.AMKA) != null)
+            if (EditPatient == null)
             {
-                ErrorMessage = "A patient with this AMKA already exists. Please check the AMKA or enter a new one.";
-                return Page();
+                return RedirectToPage("/Error"); 
             }
 
-            _patientRepository.Add(NewPatient);
+            return Page();
+        }
 
+        public IActionResult OnPostEditPatient()
+        {
+            _patientRepository.Update(EditPatient);
             return RedirectToPage("/Patient");
         }
     }

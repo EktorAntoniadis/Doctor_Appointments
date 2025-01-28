@@ -1,0 +1,48 @@
+﻿@page "{id:int}"
+@model DoctorAppointments.Pages.EditPatientModel
+@{
+    ViewData["Title"] = "Edit Patient";
+}
+
+<h1>Edit Patient</h1>
+
+<form method="post" asp-page-handler="EditPatient">
+    <input type="hidden" asp-for="EditPatient.PatientId" />
+
+    <div class="mb-3">
+        <label asp-for="EditPatient.FirstName" class="form-label">First Name</label>
+        <input id="FirstName" asp-for="EditPatient.FirstName" class="form-control" required />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="EditPatient.LastName" class="form-label">Last Name</label>
+        <input id="LastName" asp-for="EditPatient.LastName" class="form-control" required />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="EditPatient.AMKA" class="form-label">AMKA</label>
+        <input id="AMKA" asp-for="EditPatient.AMKA" class="form-control" required />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="EditPatient.PhoneNumber" class="form-label">Phone Number</label>
+        <input id="PhoneNumber" asp-for="EditPatient.PhoneNumber" class="form-control" required />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="EditPatient.Email" class="form-label">Email</label>
+        <input id="Email" asp-for="EditPatient.Email" type="email" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="EditPatient.Notes" class="form-label">Notes</label>
+        <textarea asp-for="EditPatient.Notes" id="Notes" class="form-control"></textarea>
+    </div>
+
+    <button type="submit" class="btn btn-success">Edit Patient</button>
+
+    @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+    {
+        <p class="text-danger">@Model.ErrorMessage</p>
+    }
+</form>

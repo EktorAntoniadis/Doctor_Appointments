@@ -9,35 +9,37 @@
 <form method="post" asp-page-handler="AddPatient">
     <div class="mb-3">
         <label asp-for="NewPatient.FirstName" class="form-label">First Name</label>
-        <input id="FirstName" asp-for="NewPatient.FirstName" class="form-control" required />
+        <input id="FirstName" asp-for="NewPatient.FirstName" class="form-control" placeholder="Enter first name" required />
     </div>
 
     <div class="mb-3">
         <label asp-for="NewPatient.LastName" class="form-label">Last Name</label>
-        <input id="LastName" asp-for="NewPatient.LastName" class="form-control" required />
+        <input id="LastName" asp-for="NewPatient.LastName" class="form-control" placeholder="Enter last name" required />
     </div>
 
     <div class="mb-3">
         <label asp-for="NewPatient.AMKA" class="form-label">AMKA</label>
-        <input id="AMKA" asp-for="NewPatient.AMKA" class="form-control" required />
+        <input id="AMKA" asp-for="NewPatient.AMKA" class="form-control" placeholder="Enter 11-digit AMKA" required />
     </div>
 
     <div class="mb-3">
         <label asp-for="NewPatient.Email" class="form-label">Email</label>
-        <input id="Email" asp-for="NewPatient.Email" type="email" class="form-control" required />
+        <input id="Email" asp-for="NewPatient.Email" type="email" class="form-control" placeholder="Enter email address" />
     </div>
 
     <div class="mb-3">
         <label asp-for="NewPatient.PhoneNumber" class="form-label">Phone Number</label>
-        <input id="PhoneNumber" asp-for="NewPatient.PhoneNumber" class="form-control" required />
+        <input id="PhoneNumber" asp-for="NewPatient.PhoneNumber" class="form-control" placeholder="Enter phone number" />
     </div>
 
     <div class="mb-3">
         <label asp-for="NewPatient.Notes" class="form-label">Notes</label>
-        <textarea asp-for="NewPatient.Notes" id="Notes" class="form-control" ></textarea>
+        <textarea asp-for="NewPatient.Notes" id="Notes" class="form-control" placeholder="Enter notes"></textarea>
     </div>
 
-    <button type="submit" class="btn btn-success">Add Patient</button>
+    <button type="submit" class="btn btn-success">
+        Add Patient
+    </button>
 
     @if (!string.IsNullOrEmpty(Model.ErrorMessage))
     {
