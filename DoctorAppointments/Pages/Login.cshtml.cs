@@ -1,8 +1,11 @@
 using DoctorAppointments.Models;
 using DoctorAppointments.Repository;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Collections.Generic;
+using System.Security.Claims;
 
 public class LoginModel : PageModel
 {
@@ -22,7 +25,7 @@ public class LoginModel : PageModel
 
     public string ErrorMessage { get; set; }
 
-    public IActionResult OnPost()
+    public async Task<IActionResult> OnPost()
     {
         if(Username  == null || Password == null)
         {
@@ -39,14 +42,39 @@ public class LoginModel : PageModel
         }
 
         var hashedPasswordResult = _hasher.VerifyHashedPassword(user, user.Password, Password);
-        if(hashedPasswordResult == PasswordVerificationResult.Success)
+
+        if(hashedPasswordResult == PasswordVerificationResult.SuccessRehashNeeded)
         {
-            return RedirectToPage("/Appointments");
+            var newHashedPassword = _hasher.HashPassword(user, Password);
+            user.Password = newHashedPassword;
+            _userRepository.Update(user);
         }
-        else
+
+        if(hashedPasswordResult == PasswordVerificationResult.Failed)
         {
             ErrorMessage = "Wrong password";
             return Page();
         }
+
+        HttpContext.Session.SetString("UserRole", user.Role);
+        HttpContext.Session.SetInt32("UserId", user.UserId);
+
+        var claims = new List<Claim>
+        {
+            new Claim(ClaimTypes.Name, user.Username),
+            new Claim(ClaimTypes.Role, user.Role)
+        };
+
+        var claimsIdentity = new ClaimsIdentity(claims, "DoctorAppointmentsScheme");
+
+        var authenticationProperties = new AuthenticationProperties
+        {
+            IsPersistent = true,
+            ExpiresUtc = DateTime.UtcNow.AddHours(1),
+        };
+
+        await HttpContext.SignInAsync("DoctorAppointmentsScheme", new ClaimsPrincipal(claimsIdentity), authenticationProperties);
+
+        return RedirectToPage("/Appointments");
     }
 }

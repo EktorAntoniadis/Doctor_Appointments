@@ -21,6 +21,22 @@ namespace DoctorAppointments
             builder.Services.AddScoped<IUserRepository, UserRepository>();
             builder.Services.AddScoped<IPatientRepository, PatientRepository>();
 
+            builder.Services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromMinutes(60);
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+            });
+
+            builder.Services.AddAuthentication("DoctorAppointmentsScheme")
+                .AddCookie("DoctorAppointmentsScheme", options =>
+                {
+                    options.LoginPath = "/Login";
+                    options.AccessDeniedPath = "/Error";
+                });
+
+            builder.Services.AddAuthorization();
+
 
             var app = builder.Build();
 
@@ -36,9 +52,9 @@ namespace DoctorAppointments
             app.UseStaticFiles();
 
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
-
+            app.UseSession();
             app.MapRazorPages();
 
             using (var scope = app.Services.CreateScope())

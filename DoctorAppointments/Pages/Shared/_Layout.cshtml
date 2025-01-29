@@ -37,11 +37,17 @@
                         </li>
                     </ul>
                    <ul class="navbar-nav ms-auto">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Login">
-                                Login
-                            </a>
-                        </li>                       
+                       @if(User.Identity!.IsAuthenticated){
+                            <form method="post" asp-page="/Logout" onsubmit="return confirm('Are you sure you want to log out?')" >
+                                <button type="submit" class="nav-link btn btn-link text-dark p-0">Logout</button>
+                            </form>
+                       }else{
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-page="/Login">
+                                    Login
+                                </a>
+                            </li>
+                        }                                              
                     </ul>
                    
                 </div>

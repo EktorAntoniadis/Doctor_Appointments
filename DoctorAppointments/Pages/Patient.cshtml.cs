@@ -1,12 +1,12 @@
 using DoctorAppointments.Models;
 using DoctorAppointments.Repository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace DoctorAppointments.Pages
 {
+    [Authorize(Roles = "Doctor, Secretary")]
     public class PatientsModel : PageModel
     {        
         private readonly IPatientRepository _patientRepository;
