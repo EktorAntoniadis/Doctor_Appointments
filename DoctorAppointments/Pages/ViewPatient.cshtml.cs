@@ -4,40 +4,34 @@ using DoctorAppointments.Repository;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Collections.Generic;
 
 namespace DoctorAppointments.Pages
 {
     [Authorize(Roles = "Doctor, Secretary")]
-    public class EditPatientModel : PageModel
+    public class ViewPatientModel : PageModel
     {
         private readonly IPatientRepository _patientRepository;
+        private readonly IAppointmentRepository _appointmentRepository;
 
-        public EditPatientModel(IPatientRepository patientRepository)
+        public ViewPatientModel(IPatientRepository patientRepository, IAppointmentRepository appointmentRepository)
         {
             _patientRepository = patientRepository ?? throw new ArgumentNullException(nameof(patientRepository));
+            _appointmentRepository = appointmentRepository ?? throw new ArgumentNullException(nameof(appointmentRepository));
         }
 
-        [BindProperty]
-        public Patient EditPatient { get; set; }
-
-        public string ErrorMessage { get; set; }
+        public Patient ViewPatient { get; set; }
+        
 
         public IActionResult OnGet(int id)
         {
-            EditPatient = _patientRepository.GetById(id);
-
-            if (EditPatient == null)
+            ViewPatient = _patientRepository.GetById(id);
+            if (ViewPatient == null)
             {
-                return RedirectToPage("/Error"); 
+                return RedirectToPage("/Error");
             }
-
+           
             return Page();
-        }
-
-        public IActionResult OnPostEditPatient()
-        {
-            _patientRepository.Update(EditPatient);
-            return RedirectToPage("/Patient");
         }
     }
 }

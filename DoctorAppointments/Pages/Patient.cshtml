@@ -31,8 +31,9 @@
                 <td>@patient.AMKA</td>
                 <td>@patient.Address</td>
                 <td>
-                    <a asp-page="EditPatient" asp-route-id="@patient.PatientId">Edit</a> |
-                    <a asp-action="DeletePatient" asp-route-id="@patient.PatientId">Delete</a>
+                    <a asp-page="ViewPatient" class="btn btn-outline-info" asp-route-id="@patient.PatientId">View</a>
+                    <a asp-page="EditPatient" class="btn btn-warning" asp-route-id="@patient.PatientId">Edit</a> 
+                    <a asp-action="DeletePatient" class="btn btn-danger" asp-route-id="@patient.PatientId">Delete</a>
                 </td>
             </tr>
         }

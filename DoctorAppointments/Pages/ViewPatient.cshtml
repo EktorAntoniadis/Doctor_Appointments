@@ -1,0 +1,81 @@
+﻿@page "{id:int}"
+@model DoctorAppointments.Pages.ViewPatientModel
+@{
+    ViewData["View Patient"] = "View Patient";
+}
+
+<h1>Patient Details</h1>
+
+<div class="mb-3">
+    <label class="form-label"><strong>First Name:</strong></label>
+    <p>@Model.ViewPatient.FirstName</p>
+</div>
+
+<div class="mb-3">
+    <label class="form-label"><strong>Last Name:</strong></label>
+    <p>@Model.ViewPatient.LastName</p>
+</div>
+
+<div class="mb-3">
+    <label class="form-label"><strong>AMKA:</strong></label>
+    <p>@Model.ViewPatient.AMKA</p>
+</div>
+
+<div class="mb-3">
+    <label class="form-label"><strong>Phone Number:</strong></label>
+    <p>@Model.ViewPatient.PhoneNumber</p>
+</div>
+
+<div class="mb-3">
+    <label class="form-label"><strong>Email:</strong></label>
+    <p>@Model.ViewPatient.Email</p>
+</div>
+
+<div class="mb-3">
+    <label class="form-label"><strong>Notes:</strong></label>
+    <p>@Model.ViewPatient.Notes</p>
+</div>
+
+<h2>Appointments</h2>
+@if (Model.ViewPatient.Appointments.Any())
+{
+    <table class="table table-responsive table-light">
+        <thead>
+            <tr>
+                <th>
+                    Date
+                </th>
+                <th>
+                    Start Time
+                </th>
+                <th>
+                    End Time
+                </th>
+                <th>
+                  Status
+                </th>
+                <th>
+                    Description
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var appointment in Model.ViewPatient.Appointments)
+            {
+                <tr>
+                    <td>@appointment.Timeslot.Date</td>
+                    <td>@appointment.Timeslot.StartTime</td>
+                    <td>@appointment.Timeslot.EndTime</td>
+                    <td>@appointment.Status</td>
+                    <td>@appointment.Description</td>
+                </tr>               
+            }
+        </tbody>       
+    </table>
+}
+else
+{
+    <p>No appointments found.</p>
+}
+
+<a asp-page="/Patient" class="btn btn-primary">Back to Patients</a>

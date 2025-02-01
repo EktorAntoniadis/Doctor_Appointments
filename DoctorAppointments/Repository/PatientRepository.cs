@@ -1,4 +1,5 @@
 ﻿using DoctorAppointments.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace DoctorAppointments.Repository
 {
@@ -42,7 +43,10 @@ namespace DoctorAppointments.Repository
 
         public Patient? GetById(int id)
         {
-            return _context.Patients.Find(id);
+            return _context.Patients
+                .Include(x=>x.Appointments)
+                .ThenInclude(x=>x.Timeslot)
+                .FirstOrDefault(x=>x.PatientId == id);
         }
 
         public void Update(Patient patient)
