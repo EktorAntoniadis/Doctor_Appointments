@@ -1,4 +1,5 @@
-﻿using DoctorAppointments.Models;
+﻿using DoctorAppointments.Common;
+using DoctorAppointments.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace DoctorAppointments.Repository
@@ -55,6 +56,49 @@ namespace DoctorAppointments.Repository
 
             _context.Patients.Update(patient);
             _context.SaveChanges();
+        }
+
+        public PaginatedList<Patient> GetPatients(int pageIndex,
+            int pageSize,
+            string? firstName = null,
+            string? lastName = null,
+            string? AMKA = null,
+            string? sortColumn = "Title",
+            string? sortDirection = "asc")
+        {
+
+            var query = _context.Patients.AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(firstName))
+            {
+                query = _context.Patients.Where(x => x.FirstName.Contains(firstName));
+            }
+
+            if (!string.IsNullOrWhiteSpace(lastName))
+            {
+                query = _context.Patients.Where(x => x.LastName.Contains(lastName));
+            }
+
+            if (!string.IsNullOrWhiteSpace(AMKA))
+            {
+                query = _context.Patients.Where(x => x.AMKA == AMKA);
+            }
+
+            switch (sortColumn)
+            {
+                case "FirstName":
+                    query = sortDirection == "desc" ? query.OrderByDescending(x => x.FirstName) : query.OrderBy(x => x.FirstName);
+                    break;
+                default:
+                    query = sortDirection == "desc" ? query.OrderByDescending(x => x.LastName) : query.OrderBy(x => x.LastName);
+                    break;
+            }
+
+            var totalRecords = query.Count();
+
+            var patients = query.Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
+
+            return new PaginatedList<Patient>(patients, totalRecords, pageIndex, pageSize);
         }
     }
 }

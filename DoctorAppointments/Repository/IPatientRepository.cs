@@ -1,4 +1,5 @@
-﻿using DoctorAppointments.Models;
+﻿using DoctorAppointments.Common;
+using DoctorAppointments.Models;
 
 namespace DoctorAppointments.Repository
 {
@@ -10,6 +11,13 @@ namespace DoctorAppointments.Repository
         void Add(Patient patient);
         void Update(Patient patient);
         void Delete(int id);
+        PaginatedList<Patient> GetPatients(int pageIndex,
+            int pageSize,
+            string? firstName = null,
+            string? lastName = null,
+            string? AMKA = null,
+            string? sortColumn = "Title",
+            string? sortDirection = "asc");
     }    
 }
  
