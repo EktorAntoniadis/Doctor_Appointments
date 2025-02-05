@@ -9,11 +9,6 @@
 <form method="post" asp-page-handler="EditAppointment">
     <input type="hidden" asp-for="EditAppointment.AppointmentId"/>
     <div class="mb-3">
-        <label for="Description" class="form-label">Description</label>
-        <input id="Description" asp-for="EditAppointment.Description" class="form-control" />
-    </div>
-
-    <div class="mb-3">
         <label for="TimeslotDate" class="form-label">Timeslot Date</label>
         <input id="TimeslotDate" type="date" asp-for="EditAppointment.Timeslot.Date" class="form-control" required />
     </div>
@@ -41,6 +36,20 @@
     <div class="mb-3">
         <label for="PatientAMKA" class="form-label">Patient AMKA</label>
         <input id="PatientAMKA" asp-for="EditAppointment.Patient.AMKA" class="form-control" required />
+    </div>
+    <div class="mb-3">
+        <label for="AppointmentStatus" class="form-label">Appointment Status</label>
+        <select class="form-control" asp-for="EditAppointment.Status">
+            <option selected="@(Model.EditAppointment.Status == "New" ? "selected" : null)">New</option>
+            <option selected="@(Model.EditAppointment.Status == "Ongoing" ? "selected" : null)">Ongoing</option>
+            <option selected="@(Model.EditAppointment.Status == "Completed" ? "selected" : null)">Completed</option>
+            <option selected="@(Model.EditAppointment.Status == "Cancelled" ? "selected" : null)">Cancelled</option>
+        </select>
+
+    </div>
+    <div class="mb-3">
+        <label for="Description" class="form-label">Description</label>
+        <input id="Description" asp-for="EditAppointment.Description" class="form-control" />
     </div>
 
     <button type="submit" class="btn btn-success">Edit Appointment</button>

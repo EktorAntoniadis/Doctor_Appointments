@@ -6,9 +6,43 @@
 
 <h1>Patient List</h1>
 
-<div class="mt-4">
+<div class="mt-4 mb-4">
     <a href="/CreatePatient" class="btn btn-info">Add New patient</a>
 </div>
+
+<form method="get" class="mb-4">
+    <div class="row">
+        <div class="col-2">
+            <input type="text" name="FirstName" value="@Model.FirstName" class="form-control" placeholder="Search by first name" />
+        </div>
+        <div class="col-2">
+            <input type="text" name="LastName" value="@Model.LastName" class="form-control" placeholder="Search by last name" />
+
+        </div>
+        <div class="col-2">
+            <input type="text" name="AMKA" value="@Model.AMKA" class="form-control" placeholder="Search by AMKA" />
+
+        </div>
+        <div class="col-2">
+            <select name="SortColumn" class="form-control">
+                <option value="">Select order by</option>
+                <option value="FirstName" class="@(Model.SortColumn == "FirstName" ? "selected" : "")">Title</option>
+                <option value="LastName" class="@(Model.SortColumn == "LastName" ? "selected" : "")">Genre</option>
+            </select>
+        </div>
+        <div class="col-2">
+            <select name="SortDirection" class="form-control">
+                <option value="">Select order direction</option>
+                <option value="asc" class="@(Model.SortDirection == "asc" ? "selected" : "")">Ascending</option>
+                <option value="desc" class="@(Model.SortDirection == "desc" ? "selected" : "")">Descending</option>
+            </select>
+        </div>
+        <div class="col-2">
+            <button type="submit" class="btn btn-primary">Search</button>
+            <a href="/Patient" class="btn btn-secondary">Reset</a>
+        </div>
+    </div>
+</form>
 
 <table class="table table-responsive table-light">
     <thead>
@@ -22,7 +56,7 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var patient in Model.Patients)
+        @foreach (var patient in Model.Patients.Records)
         {
             <tr>
                 <td>@patient.FirstName</td>
@@ -39,3 +73,14 @@
         }
     </tbody>
 </table>
+
+<div class="pagination">
+    @if (Model.Patients.HasPreviousPage)
+    {
+        <a asp-page="/Patient" asp-route-PageIndex="@(Model.Patients.PageIndex - 1)" class="btn btn-secondary">Previous</a>
+    }
+    @if (Model.Patients.HasNextPage)
+    {
+        <a asp-page="/Patient" asp-route-PageIndex="@(Model.Patients.PageIndex + 1)" class="btn btn-secondary">Next</a>
+    }
+</div>

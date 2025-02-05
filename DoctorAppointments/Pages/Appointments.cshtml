@@ -52,6 +52,7 @@
                 </th>
                 <th>End Time</th>
                 <th>Appointment Notes</th>
+                <th>Status</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -65,10 +66,21 @@
                     <td>@appointment.Timeslot.Date</td>
                     <td>@appointment.Timeslot.StartTime</td>
                     <td>@appointment.Timeslot.EndTime</td>
-                    <td>@appointment.Description</td>
+                    <td>
+                        @if (appointment.Description?.Length > 50)
+                        {
+                            @($"{appointment.Description.Substring(0, 50)}...")
+
+                        }
+                        else
+                        {
+
+                            @appointment.Description;
+                        }
+                    </td>
+                    <td>@appointment.Status</td>
                     <td>
                         <a asp-page="EditAppointment" class="btn btn-warning" asp-route-id="@appointment.AppointmentId">Edit</a>
-                        <a asp-page="DeleteAppointment" class="btn btn-danger" asp-route-id="@appointment.AppointmentId">Edit</a>
                     </td>
                 </tr>
             }

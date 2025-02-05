@@ -30,14 +30,6 @@ namespace DoctorAppointments.Pages
 
         public IActionResult OnPostEditAppointment() 
         { 
-            if(_appointmentRepository.IsExistingAppointment(
-                EditAppointment.Timeslot.Date, 
-                EditAppointment.Timeslot.StartTime, 
-                EditAppointment.Timeslot.EndTime))
-            {
-                ErrorMessage = "An appointment for this time frame already exists. Please select another date and time";
-                return Page();
-            }
             _appointmentRepository.Update(EditAppointment);
             return RedirectToPage("/Appointments");
         }
